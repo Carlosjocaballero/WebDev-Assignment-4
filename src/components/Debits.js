@@ -10,10 +10,6 @@ import {Link} from 'react-router-dom';
 class Debits extends Component  {
   constructor(props) {
     super(props);
-    this.state = {
-      accountBalance: 0,
-      debitList: [],
-    };
   } 
   
   // Create the list of Debit items
