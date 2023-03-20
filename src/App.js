@@ -33,11 +33,12 @@ class App extends Component {
 
     let balance = 0;
     creditJSON.data.forEach((data) => { balance += data.amount; console.log(balance); });
+    debitJSON.data.forEach((data) => { balance -= data.amount; console.log(balance); });
 
     this.setState( { 
       creditList: creditJSON.data,
       debitList: debitJSON.data,
-      accountBalance: balance,
+      accountBalance: (Number(balance)).toFixed(2),
       currentUser: { userName: 'Joe Smith', memberSince: '11/22/99' }
     } );
   }
@@ -58,6 +59,16 @@ class App extends Component {
     this.setState( {accountBalance : (Number(this.state.accountBalance) + Number(event.target.amount.value)).toFixed(2) } );
     this.state.creditList.push({ amount: event.target.amount.value, description: event.target.description.value, date: date })
   }
+
+  // add debit function
+  addDebit = (event) => {
+    let currentDate = new Date();
+    let date = currentDate.getUTCFullYear() + 
+      '-' + ("0" + (currentDate.getUTCMonth() + 1)).slice(-2) +  
+      '-' + ("0" + currentDate.getDate()).slice(-2);
+    this.setState( {accountBalance : (Number(this.state.accountBalance) - Number(event.target.amount.value)).toFixed(2) } );
+    this.state.debitList.push({ amount: event.target.amount.value, description: event.target.description.value, date: date })
+  } 
 
   // Create Routes and React elements to be rendered using React components
   render() {  

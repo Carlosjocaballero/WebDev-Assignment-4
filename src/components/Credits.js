@@ -7,18 +7,12 @@ Note: You need to work on this file for the Assignment.
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 
-// var currentDate = new Date();
-// var Month = currentDate.getUTCMonth() + 1;
-// var Day = currentDate.getDate();
-// var Year = currentDate.getUTCFullYear();
-// var Time =  Month + '/' + Day  +  '/' + Year ;
-
 class Credits extends Component  {
   constructor(props) {
     super(props);
     this.state = {
       accountBalance: 0,
-      creditsArray: [],
+      creditList: [],
     };
   }
 
