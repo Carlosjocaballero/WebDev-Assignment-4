@@ -14,18 +14,32 @@ import LogIn from './components/Login';
 import Credits from './components/Credits';
 import Debits from './components/Debits';
 
+import axios from 'axios';
+
 class App extends Component {
   constructor() {  // Create and initialize state
     super(); 
     this.state = {
-      accountBalance: 0.00,
       creditList: [],
       debitList: [],
-      currentUser: {
-        userName: 'Joe Smith',
-        memberSince: '11/22/99',
-      }
+      accountBalance: 0.00,
+      currentUser: { userName: 'Joe Smith', memberSince: '11/22/99' }
     };
+  }
+
+  async componentDidMount() {
+    let creditJSON = await axios.get("https://johnnylaicode.github.io/api/credits.json");
+    let debitJSON = await axios.get("https://johnnylaicode.github.io/api/debits.json");
+
+    let balance = 0;
+    creditJSON.data.forEach((data) => { balance += data.amount; console.log(balance); });
+
+    this.setState( { 
+      creditList: creditJSON.data,
+      debitList: debitJSON.data,
+      accountBalance: balance,
+      currentUser: { userName: 'Joe Smith', memberSince: '11/22/99' }
+    } );
   }
 
   // Update state's currentUser (userName) after "Log In" button is clicked
@@ -36,15 +50,13 @@ class App extends Component {
   }
 
   // add credit function
-  addCredit = (credit) => {
-    this.state.accountBalance = (this.state.accountBalance + credit).toFixed(2)
-    this.state.creditList.push( credit )
-  }
-
-  // add debit function
-  addDebit = (debit) => {
-    this.state.accountBalance = (this.state.accountBalance - debit).toFixed(2)
-    this.state.debitList.push( debit )
+  addCredit = (event) => {
+    let currentDate = new Date();
+    let date = currentDate.getUTCFullYear() + 
+      '-' + ("0" + (currentDate.getUTCMonth() + 1)).slice(-2) +  
+      '-' + ("0" + currentDate.getDate()).slice(-2);
+    this.setState( {accountBalance : (Number(this.state.accountBalance) + Number(event.target.amount.value)).toFixed(2) } );
+    this.state.creditList.push({ amount: event.target.amount.value, description: event.target.description.value, date: date })
   }
 
   // Create Routes and React elements to be rendered using React components
@@ -55,8 +67,8 @@ class App extends Component {
       <UserProfile userName={this.state.currentUser.userName} memberSince={this.state.currentUser.memberSince} />
     )
     const LogInComponent = () => (<LogIn user={this.state.currentUser} mockLogIn={this.mockLogIn} />)
-    const CreditsComponent = () => (<Credits creditList={this.state.creditList} accountBalance={this.state.accountBalance} addCredits={this.addCredits} />) 
-    const DebitsComponent = () => (<Debits debitList={this.state.debitList} accountBalance={this.state.accountBalance} addDebits={this.addDebits} />) 
+    const CreditsComponent = () => (<Credits creditList={this.state.creditList} accountBalance={this.state.accountBalance} addCredit={this.addCredit} />) 
+    const DebitsComponent = () => (<Debits debitList={this.state.debitList} accountBalance={this.state.accountBalance} addDebit={this.addDebit} />) 
 
     // Important: Include the "basename" in Router, which is needed for deploying the React app to GitHub Pages
     return (
