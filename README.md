@@ -1,6 +1,10 @@
 # WebDev-Assignment-4
 This repository is the starter code for Assignment 4 - Bank of React.
 
+## Group Members
+* Carlos Caballero (Carlosjocaballero)
+* Tanmoy Paul (TanmoyPaul1)
+
 ### Live Link 
 [Website link](https://carlosjocaballero.github.io/WebDev-Assignment-4/)
 
