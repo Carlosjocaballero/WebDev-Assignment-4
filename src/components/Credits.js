@@ -8,10 +8,6 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 
 class Credits extends Component  {
-  constructor(props) {
-    super(props);
-  }
-
   creditView = () => {
     // console.log(this.props.creditList)
     const listofCredits = this.props.creditList.map((credit) =>

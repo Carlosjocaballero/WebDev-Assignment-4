@@ -8,10 +8,6 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 
 class Debits extends Component  {
-  constructor(props) {
-    super(props);
-  } 
-  
   // Create the list of Debit items
   debitView = () => {
     const listofDebits = this.props.debitList.map((debit) =>
